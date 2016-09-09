@@ -1,3 +1,5 @@
+import lodash from 'lodash';
+
 /**
  * This method allows you to use ExistedGraph class to its inheritance chain.
  *
@@ -48,13 +50,12 @@ function factoryExistedGraph(ParentClassGraph) {
      * @return {number} [count]
      */
     update(selector, modifier, callback, context) {
+      if (modifier.hasOwnProperty('removed')) {
+        delete modifier.removed;
+      }
       if (context) {
-        if (!context.removed) {
-          if (modifier.hasOwnProperty('removed')) {
-            delete modifier.removed;
-          }
-        } else {
-          modifier.removed = true;
+        if (context.modifier) {
+          modifier = lodash.assign(modifier, context.modifier);
         }
       }
       return super.update(selector, modifier, callback, context);
@@ -74,10 +75,12 @@ function factoryExistedGraph(ParentClassGraph) {
      * @param {string|LinkSelector} selector
      * @param {ExistedGraph~removeCallback} [callback]
      * @param {Object} [context]
+     * @param {Object} [context.modifier] - update modifier
      */
     remove(selector, callback, context) {
       if (!context) var context = {};
-      context.removed = true;
+      if (!context.modifier) context.modifier = {};
+      context.modifier.removed = true;
       this.update(selector, {}, callback, context);
     }
     
