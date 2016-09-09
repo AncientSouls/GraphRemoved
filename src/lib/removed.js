@@ -129,7 +129,7 @@ function factoryExistedGraph(ParentClassGraph) {
       if (event == 'remove') {
         super.on('update', function(oldLink, newLink, context) {
           if (newLink.removed) {
-            callback(oldLink, undefined, context);
+            callback(newLink, undefined, context);
           }
         });
       }
@@ -216,7 +216,7 @@ function factoryNonExistedGraph(ParentClassGraph) {
         // Impossible on object adapter of graph, but in real db
         super.on('update', function(oldLink, newLink, context) {
           if (!oldLink.removed && newLink.removed) {
-            callback(...arguments);
+            callback(undefined, newLink, context);
           }
         });
       }
