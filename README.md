@@ -12,7 +12,7 @@ npm install --save ancient-graph-removed
 
 ## Tests
 
-Tests can be started with comand `npm install ancient-graph && cd ./node_modules/ancient-graph-removed && npm run compile && npm test`. For more information lern [src/tests/index.js](https://github.com/AncientSouls/GraphRemoved/blob/master/src/tests/index.js).
+Tests can be started with comand `npm install ancient-graph && cd ./node_modules/ancient-graph-removed && npm test`. For more information lern [src/tests/index.js](https://github.com/AncientSouls/GraphRemoved/blob/master/src/tests/index.js).
 
 ## License
 
