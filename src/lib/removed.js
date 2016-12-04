@@ -212,17 +212,18 @@ function factoryNonExistedGraph(ParentClassGraph) {
      * @param {ExistedGraphonCallback} callback
      */
     on(event, callback) {
+      var config = this.config;
       if (event == 'insert') {
         // Impossible on object adapter of graph, but in real db
         super.on('update', function(oldLink, newLink, context) {
-          if (!oldLink[this.config.aliases['removed']] && newLink[this.config.aliases['removed']]) {
+          if (!oldLink[config.aliases['removed']] && newLink[config.aliases['removed']]) {
             callback(undefined, newLink, context);
           }
         });
       }
       if (event == 'update') {
         super.on('update', function(oldLink, newLink, context) {
-          if (oldLink[this.config.aliases['removed']] && newLink[this.config.aliases['removed']]) {
+          if (oldLink[config.aliases['removed']] && newLink[config.aliases['removed']]) {
             callback(...arguments);
           }
         });
