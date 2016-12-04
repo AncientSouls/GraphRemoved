@@ -118,17 +118,18 @@ function factoryExistedGraph(ParentClassGraph) {
      * @param {ExistedGraphonCallback} callback
      */
     on(event, callback) {
+      var config = this.config;
       if (event == 'insert') super.on(event, callback);
       if (event == 'update') {
         super.on('update', function(oldLink, newLink, context) {
-          if (!newLink[this.config.aliases['removed']]) {
+          if (!newLink[config.aliases['removed']]) {
             callback(...arguments);
           }
         });
       }
       if (event == 'remove') {
         super.on('update', function(oldLink, newLink, context) {
-          if (newLink[this.config.aliases['removed']]) {
+          if (newLink[config.aliases['removed']]) {
             callback(newLink, undefined, context);
           }
         });
