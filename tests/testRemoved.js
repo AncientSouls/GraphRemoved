@@ -9,10 +9,9 @@ var _chai = require('chai');
 
 function testRemoved(generateGraphs, ids) {
   it('#remove #fetch #remove #fetch', function (done) {
-    var _generateGraphs = generateGraphs();
-
-    var existedGraph = _generateGraphs.existedGraph;
-    var nonExistedGraph = _generateGraphs.nonExistedGraph;
+    var _generateGraphs = generateGraphs(),
+        existedGraph = _generateGraphs.existedGraph,
+        nonExistedGraph = _generateGraphs.nonExistedGraph;
 
     existedGraph.insert({ source: ids[0] }, function (error, id1) {
       _chai.assert.ifError(error);

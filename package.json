@@ -1,6 +1,6 @@
 {
   "name": "ancient-graph-removed",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The logic of the two-stage link removing.",
   "keywords": [
     "javascript",
@@ -31,7 +31,7 @@
     "test": "tests"
   },
   "dependencies": {
-    "ancient-graph": "0.0.26",
+    "ancient-graph": "0.0.30",
     "chai": "^3.5.0",
     "lodash": "^4.15.0",
     "mocha": "^2.5.3"
@@ -45,7 +45,7 @@
   },
   "scripts": {
     "compile": "babel --presets es2015 -d ./ src/ -s",
-    "test": "npm run compile && mocha tests/index.js --require source-map-support/register",
+    "test": "mocha tests/index.js --require source-map-support/register",
     "jsdoc": "git submodule update --init --recursive && cd ./doc && git checkout gh-pages && cd ../ && npm i && rm -r ./doc/*/ && find ./doc ! -name '.git' -type f -exec rm -rf {} + && jsdoc ./src/lib/*.js ./README.md -r -d ./doc -t ./node_modules/minami -c ./jsdoc.conf.json"
   }
 }

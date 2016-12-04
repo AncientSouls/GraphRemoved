@@ -28,7 +28,7 @@ function factoryExistedGraph(ParentClassGraph) {
      * @return {string} [id]
      */
     insert(link, callback, context) {
-      if (link.hasOwnProperty('removed')) delete link.removed;
+      if (link.hasOwnProperty(this.config.aliases['removed'])) delete link[this.config.aliases['removed']];
       return super.insert(link, callback, context);
     }
     
@@ -50,8 +50,8 @@ function factoryExistedGraph(ParentClassGraph) {
      * @return {number} [count]
      */
     update(selector, modifier, callback, context) {
-      if (modifier.hasOwnProperty('removed')) {
-        delete modifier.removed;
+      if (modifier.hasOwnProperty(this.config.aliases['removed'])) {
+        delete modifier[this.config.aliases['removed']];
       }
       if (context) {
         if (context.modifier) {
@@ -80,7 +80,7 @@ function factoryExistedGraph(ParentClassGraph) {
     remove(selector, callback, context) {
       if (!context) var context = {};
       if (!context.modifier) context.modifier = {};
-      context.modifier.removed = true;
+      context.modifier[this.config.aliases['removed']] = true;
       this.update(selector, {}, callback, context);
     }
     
@@ -103,11 +103,11 @@ function factoryExistedGraph(ParentClassGraph) {
       if (typeof(selector) != 'object') {
         _selector = {};
         if (typeof(selector) != 'undefined') {
-          _selector.id = selector;
+          _selector[this.config.aliases['id']] = selector;
         }
       }
       else _selector = selector;
-      _selector.removed = undefined;
+      _selector[this.config.aliases['removed']] = undefined;
       return super.query(_selector);
     }
     
@@ -121,14 +121,14 @@ function factoryExistedGraph(ParentClassGraph) {
       if (event == 'insert') super.on(event, callback);
       if (event == 'update') {
         super.on('update', function(oldLink, newLink, context) {
-          if (!newLink.removed) {
+          if (!newLink[this.config.aliases['removed']]) {
             callback(...arguments);
           }
         });
       }
       if (event == 'remove') {
         super.on('update', function(oldLink, newLink, context) {
-          if (newLink.removed) {
+          if (newLink[this.config.aliases['removed']]) {
             callback(newLink, undefined, context);
           }
         });
@@ -182,7 +182,7 @@ function factoryNonExistedGraph(ParentClassGraph) {
      * @return {number} [count]
      */
     update(selector, modifier, callback, context) {
-      if (modifier.hasOwnProperty('removed')) delete modifier.removed;
+      if (modifier.hasOwnProperty(this.config.aliases['removed'])) delete modifier[this.config.aliases['removed']];
       return super.update(selector, modifier, callback, context);
     }
     
@@ -197,11 +197,11 @@ function factoryNonExistedGraph(ParentClassGraph) {
       if (typeof(selector) != 'object') {
         _selector = {};
         if (typeof(selector) != 'undefined') {
-          _selector.id = selector;
+          _selector[this.config.aliases['id']] = selector;
         }
       }
       else _selector = selector;
-      _selector.removed = true;
+      _selector[this.config.aliases['removed']] = true;
       return super.query(_selector);
     }
     
@@ -215,14 +215,14 @@ function factoryNonExistedGraph(ParentClassGraph) {
       if (event == 'insert') {
         // Impossible on object adapter of graph, but in real db
         super.on('update', function(oldLink, newLink, context) {
-          if (!oldLink.removed && newLink.removed) {
+          if (!oldLink[this.config.aliases['removed']] && newLink[this.config.aliases['removed']]) {
             callback(undefined, newLink, context);
           }
         });
       }
       if (event == 'update') {
         super.on('update', function(oldLink, newLink, context) {
-          if (oldLink.removed && newLink.removed) {
+          if (oldLink[this.config.aliases['removed']] && newLink[this.config.aliases['removed']]) {
             callback(...arguments);
           }
         });
